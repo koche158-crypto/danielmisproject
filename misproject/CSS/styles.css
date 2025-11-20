@@ -1,0 +1,757 @@
+/* Modern Dark Theme CSS */
+
+/* ===== VARIABLES ===== */
+:root {
+    --primary-color: #6366f1;        /* Modern indigo/blue */
+    --secondary-color: #8b5cf6;      /* Purple accent */
+    --accent-color: #ec4899;        /* Pink accent */
+    --text-color: #e5e7eb;          /* Light gray text */
+    --text-secondary: #9ca3af;      /* Muted text */
+    --background-color: #0f172a;     /* Dark blue background */
+    --surface-color: #1e293b;        /* Dark surface */
+    --surface-elevated: #334155;    /* Elevated surface */
+    --border-color: #334155;         /* Border color */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-glow: rgba(99, 102, 241, 0.2);
+}
+
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #000000;
+    animation: fadeIn 0.8s ease-out;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Particle canvas background */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    background: transparent;
+}
+
+    /* Ensure content is above particles */
+    nav, main, footer {
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+        background: rgba(30, 41, 59, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 1.2rem;
+        box-shadow: 0 4px 20px var(--shadow-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        position: relative;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+    nav a:hover {
+        color: var(--primary-color);
+        background: rgba(99, 102, 241, 0.1);
+    }
+
+    /* Underline animation */
+    nav a::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0%;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+
+    nav a:hover::after {
+        width: 80%;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+    }
+
+    h1 {
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        font-size: 2.8rem;
+        letter-spacing: -0.5px;
+        text-align: center;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    h2 {
+        color: var(--text-color);
+        margin: 2rem 0 1rem 0;
+        letter-spacing: -0.3px;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        color: var(--text-color);
+        font-weight: 600;
+    }
+
+    /* Interactive cards with glassmorphism */
+    section {
+        margin-bottom: 3rem;
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        padding: 2.5rem;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px var(--shadow-color);
+        transition: all 0.3s ease;
+    }
+
+    section:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 40px var(--shadow-color), 
+                    0 0 30px rgba(99, 102, 241, 0.5),
+                    0 0 60px rgba(99, 102, 241, 0.3),
+                    0 0 90px rgba(139, 92, 246, 0.2);
+        border-color: rgba(99, 102, 241, 0.6);
+    }
+
+    /* Images */
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 20px var(--shadow-color);
+    }
+
+    img:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 30px var(--shadow-color);
+    }
+
+    /* Hobbies page layout - images next to text */
+.hobby-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.hobby-content-left,
+.hobby-content-right {
+    flex: 1;
+    min-width: 300px;
+}
+
+.hobby-content-left h2,
+.hobby-content-right h2 {
+    margin-top: 0;
+}
+
+.hobby-image-left,
+.hobby-image-right {
+    flex: 0 0 300px;
+    min-width: 250px;
+}
+
+.hobby-image-left img,
+.hobby-image-right img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+}
+
+    /* Theatre image crop - show middle 50% vertically */
+.theatre-image-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    aspect-ratio: 16 / 9;
+}
+
+.theatre-image-container img {
+    width: 100%;
+    height: 200%;
+    object-fit: cover;
+    object-position: center center;
+    position: relative;
+    top: -25%;
+}
+
+    /* Hiking image crop - show middle 50% horizontally */
+.hiking-image-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+    aspect-ratio: 16 / 9;
+}
+
+.hiking-image-container img {
+    width: 200%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    position: relative;
+    left: -50%;
+    top: 0;
+}
+
+/* Responsive: stack on mobile */
+@media screen and (max-width: 768px) {
+    .hobby-section {
+        flex-direction: column;
+    }
+    
+    .hobby-image-left,
+    .hobby-image-right {
+        flex: 1 1 100%;
+        width: 100%;
+    }
+    
+    .hobby-image-left {
+        order: -1;
+    }
+
+    .section-with-image {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .section-image {
+        flex: 1 1 100%;
+    }
+}
+
+/* Game section styling */
+.game-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.game-section iframe {
+    width: 100%;
+    max-width: 900px;
+    height: 600px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px var(--shadow-color);
+}
+
+/* Responsive game iframe */
+@media screen and (max-width: 768px) {
+    .game-section iframe {
+        height: 400px;
+    }
+}
+
+.intro-content {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.intro-content p {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.intro-image {
+    flex: 0 0 250px;
+    display: flex;
+    align-items: center;
+}
+
+.intro-image img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 12px;
+}
+
+/* Homepage hobbies preview section */
+.hobbies-preview h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+/* Center the whole bubble content and keep the heading above the centered trio */
+.hobbies-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center heading and grid inside the section */
+}
+
+/* Grid for homepage hobbies preview: left image, centered text (two paragraphs), right image */
+.hobbies-grid {
+    display: flex;
+    align-items: center; /* center columns vertically */
+    justify-content: center; /* keep the whole trio centered in the section */
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1100px; /* constrain so center text stays visually centered in the bubble */
+}
+
+.hobby-text-center {
+    /* make the center column a fixed, readable width so images have predictable room */
+    flex: 0 0 520px; /* fixed width for centered paragraphs */
+    min-width: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* vertically center the two paragraphs */
+    gap: 1.25rem;
+    text-align: center; /* center paragraphs horizontally between images */
+    padding: 0 1rem; /* breathing room from images */
+}
+
+.hobby-text-center p {
+    max-width: 520px; /* keep lines readable */
+    margin: 0 auto;    /* center the paragraph block */
+}
+
+/* Ensure the two side images match height by making their containers stretch and images fill */
+.hobbies-grid .hobby-image-left,
+.hobbies-grid .hobby-image-right {
+    /* fixed column size so center text always has room */
+    flex: 0 0 340px;
+    min-width: 220px;
+    display: flex;
+    align-items: stretch;
+    height: 360px; /* enforce matching height for both images */
+}
+
+.hobbies-grid .hobby-image-left img,
+.hobbies-grid .hobby-image-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.hobby-item {
+    display: flex;
+    align-items: stretch;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.hobby-item:last-of-type {
+    margin-bottom: 1rem;
+}
+
+.hobby-image-left,
+.hobby-image-right {
+    flex: 0 0 200px;
+    display: flex;
+    align-items: stretch;
+}
+
+.hobby-image-left img,
+.hobby-image-right img {
+    width: 100%;
+    max-width: 200px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.hobby-text {
+    flex: 1;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hobby-text p {
+    margin: 0;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+/* Sections with an image on the right (homepage) */
+.section-with-image {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.section-text {
+    flex: 1;
+    min-width: 280px;
+}
+
+.section-image {
+    flex: 0 0 320px;
+    min-width: 260px;
+    text-align: center;
+}
+
+.section-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+
+.cta-link-wrapper {
+    text-align: center;
+}
+
+.hobbies-link {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--primary-color);
+}
+
+.hobbies-link a {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow-glow);
+}
+
+.hobbies-link a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow-glow);
+}
+
+.cta-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.85rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--shadow-glow);
+}
+
+.cta-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow-glow);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 3rem auto;
+    padding-bottom: 56.25%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px var(--shadow-color);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #000;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-wrapper.home-video {
+    max-width: 1200px;
+    padding-bottom: 62%;
+}
+
+/* Career page styling */
+.company-section {
+    margin-bottom: 4rem;
+}
+
+.company-section h2 {
+    color: var(--text-color);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--primary-color);
+}
+
+.career-subsection {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background: rgba(51, 65, 85, 0.4);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.career-subsection:last-child {
+    margin-bottom: 0;
+}
+
+.career-subsection h3 {
+    color: var(--text-color);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+.career-subsection p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+.career-subsection p:last-child {
+    margin-bottom: 0;
+}
+
+.career-subsection a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.career-subsection a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Resume styling */
+.resume-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.resume-header h1 {
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-info {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.resume-item {
+    margin-bottom: 1.5rem;
+}
+
+.resume-item:last-child {
+    margin-bottom: 0;
+}
+
+.resume-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.resume-item-header h3 {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin: 0;
+    flex: 1;
+    min-width: 200px;
+}
+
+.resume-date {
+    color: var(--text-secondary);
+    font-style: italic;
+    white-space: nowrap;
+}
+
+.resume-item ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+}
+
+.resume-item ul li {
+    margin-bottom: 0.3rem;
+    color: var(--text-color);
+}
+
+.resume-item p {
+    margin: 0.5rem 0;
+    color: var(--text-color);
+}
+
+.resume-item p:first-of-type {
+    margin-top: 0.5rem;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+/* Mobile phones */
+@media screen and (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    main {
+        padding: 0 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+
+    .resume-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .resume-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .resume-date {
+        margin-top: 0.25rem;
+    }
+
+    .intro-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .intro-image {
+        flex: 1 1 100%;
+    }
+
+    .intro-image img {
+        max-width: 200px;
+    }
+
+    .hobby-item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hobby-image-left {
+        flex: 1 1 100%;
+        order: -1;
+    }
+
+    .hobby-image-right {
+        flex: 1 1 100%;
+        order: 1;
+    }
+
+    .hobby-image-left img,
+    .hobby-image-right img {
+        max-width: 100%;
+    }
+
+    /* On small screens stack the hobbies-grid columns vertically and keep images full-width */
+    .hobbies-grid {
+        flex-direction: column;
+    }
+
+    .hobbies-grid .hobby-image-left,
+    .hobbies-grid .hobby-image-right {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+
+    .hobbies-grid .hobby-image-left img,
+    .hobbies-grid .hobby-image-right img {
+        height: auto;
+        max-height: none;
+    }
+}
+
+/* Tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    nav ul {
+        gap: 1rem;
+    }
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+    border-top: 1px solid var(--border-color);
+    font-weight: 500;
+    color: var(--text-secondary);
+}

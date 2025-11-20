@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | My Website</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+    <style>
+        :root {
+            --primary: #2d3436;
+            --accent: #6c5ce7;
+            --background: #ffffff;
+            --surface: #f8fafc;
+            --text: #2d3436;
+            --text-light: #636e72;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 3rem;
+            background: var(--surface);
+            border-radius: 20px;
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .game-section {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #gameCanvas {
+            background: #87CEEB;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--surface);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .controls p {
+            margin: 0.5rem 0;
+            color: var(--text-light);
+        }
+
+        .score {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            transform: translateX(-50%);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        h1:hover::after {
+            width: 100px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 1.5rem auto;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 2rem;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="content">
+            <h1>Welcome to my Website!</h1>
+            <p class="subtitle">Crafting digital experiences with passion and precision. Explore my world of creative projects and ideas.</p>
+            <div class="game-section">
+                <h2 style="color: var(--primary); margin-bottom: 1rem;">Platform Adventure</h2>
+                <p style="color: var(--text-light); margin-bottom: 1.5rem;">Help the hero collect coins and reach the end!</p>
+                <div class="game-container">
+                    <canvas id="gameCanvas" width="800" height="400"></canvas>
+                    <div class="score">Score: <span id="score">0</span></div>
+                    <div class="controls">
+                        <p>← → Arrow keys to move</p>
+                        <p>Space or ↑ to jump</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+
+        // Game objects
+        const player = {
+            x: 50,
+            y: canvas.height - 100,
+            width: 30,
+            height: 30,
+            speed: 5,
+            velX: 0,
+            velY: 0,
+            jumping: false,
+            score: 0
+        };
+
+        const gravity = 0.5;
+        const jumpForce = -12;
+        const friction = 0.8;
+
+        // Platform and coin data
+        const platforms = [
+            { x: 0, y: canvas.height - 40, width: 800, height: 40 },  // Ground
+            { x: 300, y: canvas.height - 120, width: 100, height: 20 },
+            { x: 500, y: canvas.height - 200, width: 100, height: 20 },
+            { x: 200, y: canvas.height - 250, width: 100, height: 20 },
+            { x: 400, y: canvas.height - 300, width: 100, height: 20 }
+        ];
+
+        const coins = [
+            { x: 320, y: canvas.height - 150, width: 15, height: 15, collected: false },
+            { x: 520, y: canvas.height - 230, width: 15, height: 15, collected: false },
+            { x: 220, y: canvas.height - 280, width: 15, height: 15, collected: false },
+            { x: 420, y: canvas.height - 330, width: 15, height: 15, collected: false }
+        ];
+
+        // Input handling
+        const keys = {};
+        document.addEventListener('keydown', (e) => keys[e.key] = true);
+        document.addEventListener('keyup', (e) => keys[e.key] = false);
+
+        function updatePlayer() {
+            // Horizontal movement
+            if (keys['ArrowLeft']) {
+                player.velX = -player.speed;
+            }
+            if (keys['ArrowRight']) {
+                player.velX = player.speed;
+            }
+
+            // Apply friction
+            player.velX *= friction;
+
+            // Jumping
+            if ((keys[' '] || keys['ArrowUp']) && !player.jumping) {
+                player.velY = jumpForce;
+                player.jumping = true;
+            }
+
+            // Apply gravity
+            player.velY += gravity;
+
+            // Update position
+            player.x += player.velX;
+            player.y += player.velY;
+
+            // Canvas boundaries
+            if (player.x < 0) player.x = 0;
+            if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+            // Platform collisions
+            let onPlatform = false;
+            platforms.forEach(platform => {
+                if (collision(player, platform)) {
+                    if (player.velY > 0 && player.y + player.height > platform.y) {
+                        player.y = platform.y - player.height;
+                        player.velY = 0;
+                        player.jumping = false;
+                        onPlatform = true;
+                    }
+                }
+            });
+
+            // Collect coins
+            coins.forEach(coin => {
+                if (!coin.collected && collision(player, coin)) {
+                    coin.collected = true;
+                    player.score += 10;
+                    scoreElement.textContent = player.score;
+                }
+            });
+        }
+
+        function collision(obj1, obj2) {
+            return obj1.x < obj2.x + obj2.width &&
+                   obj1.x + obj1.width > obj2.x &&
+                   obj1.y < obj2.y + obj2.height &&
+                   obj1.y + obj1.height > obj2.y;
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw platforms
+            ctx.fillStyle = '#4CAF50';
+            platforms.forEach(platform => {
+                ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            });
+
+            // Draw coins
+            ctx.fillStyle = '#FFD700';
+            coins.forEach(coin => {
+                if (!coin.collected) {
+                    ctx.beginPath();
+                    ctx.arc(coin.x + coin.width/2, coin.y + coin.height/2, coin.width/2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+
+            // Draw player
+            ctx.fillStyle = '#FF5722';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function gameLoop() {
+            updatePlayer();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        gameLoop();
+    </script>
+</body>
+</html>
